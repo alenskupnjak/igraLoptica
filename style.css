@@ -1,0 +1,33 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.pravila {
+  background-color: aquamarine;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 300px;
+  padding: 10px;
+  transform: translateX(-300px);
+  transition: transform 1s ease-in-out;
+  
+}
+
+.pravila.pokazi {
+  transform: translateX(0);
+}
+
+.btn {
+  background-color: black;
+  color: #fff;
+  padding: 10px 20px;
+  border: 0;
+  border-radius: 5px;
+  margin: 10px;
+}
+
