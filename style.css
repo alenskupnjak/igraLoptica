@@ -21,16 +21,10 @@ body {
   top: 40px;
   left: 0;
   line-height: 1.4;
-  /* display: flex; */
-  /* flex-direction: column; */
-  /* justify-content: center; */
-  /* align-items: center; */
-  /* text-align: center; */
   width: 200px;
   padding: 10px;
   transform: translateX(-1300px);
   transition: transform 1s ease-in-out;
-  
 }
 
 .pravila.pokazi {
@@ -45,11 +39,9 @@ body {
   border-radius: 5px;
   margin: 10px;
   width: 150px;
+  font-size: 16px;
 }
 
-.btn.start {
-  background-color: royalblue;
-}
 
 canvas {
   width: 800px;

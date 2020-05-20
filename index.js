@@ -9,9 +9,8 @@ const ctx = c.getContext('2d');
 let rezultat = 0;
 let brojRedova = 9;
 let brojStupaca = 5;
-let sirinaOdbojnika = 800
+let sirinaOdbojnika = 800;
 let zaustaviProgram = 0;
-
 
 // Definiramo karakteristike lopte
 const lopta = {
@@ -26,11 +25,11 @@ const lopta = {
 
 // definiramo odbojnik
 const odbojnik = {
-  x: c.width / 2 - sirinaOdbojnika/2,
+  x: c.width / 2 - sirinaOdbojnika / 2,
   y: c.height - 20,
   height: 10,
   width: sirinaOdbojnika,
-  brzina: 18,
+  brzina: 8,
   dx: 0,
 };
 
@@ -60,17 +59,16 @@ for (let i = 0; i < brojRedova; i++) {
 function nacrtajBlokove() {
   poljeBlokova.forEach((kolona) => {
     kolona.forEach((data) => {
+      ctx.beginPath();
+      ctx.rect(data.x, data.y, data.w, data.h);
 
-        ctx.beginPath();
-        ctx.rect(data.x, data.y, data.w, data.h);
-
-        if (data.vidljiv) {
-          ctx.fillStyle = 'black';
-        } else {
-          ctx.fillStyle = 'transparent';
-        }
-        ctx.fill();
-        ctx.closePath();
+      if (data.vidljiv) {
+        ctx.fillStyle = 'black';
+      } else {
+        ctx.fillStyle = 'transparent';
+      }
+      ctx.fill();
+      ctx.closePath();
     });
   });
 }
@@ -103,14 +101,13 @@ function kretanjeOdbojnika(e) {
   }
 }
 
-
 // Ucini vidljivima sve blokove
 function blokoviVidljivi() {
-  poljeBlokova.forEach(column =>{
-    column.forEach(data => {
-      data.vidljiv = true
-    })
-  })
+  poljeBlokova.forEach((column) => {
+    column.forEach((data) => {
+      data.vidljiv = true;
+    });
+  });
 }
 
 // funkcija koja crta loptu
@@ -122,9 +119,12 @@ function nacrtajLoptu() {
   ctx.closePath();
 }
 
-
 // Crtamo loptu koja se krece
 function kretanjeLopte() {
+  console.log(lopta.dx);
+  console.log(lopta.dy);
+  
+  
   lopta.x += lopta.dx;
   lopta.y += lopta.dy;
 
@@ -144,8 +144,7 @@ function kretanjeLopte() {
   }
 
   // desni/lijevi zid odbijanje
-  if (lopta.x + lopta.radius > c.width
-    || lopta.x - lopta.radius < 0) {
+  if (lopta.x + lopta.radius > c.width || lopta.x - lopta.radius < 0) {
     lopta.dx = -lopta.dx;
   }
   // donji zid
@@ -157,31 +156,32 @@ function kretanjeLopte() {
     blokoviVidljivi();
   }
 
+
   // provjera za svaki blok dali je lopta dodirnila
-  poljeBlokova.forEach(kolona =>{
-    kolona.forEach((data,index) => {
+  poljeBlokova.forEach((kolona) => {
+    kolona.forEach((data, index) => {
       if (data.vidljiv) {
-        if(
-              lopta.x - lopta.radius > data.x
-          &&  lopta.x + lopta.radius < data.x + data.w
-          && lopta.y + lopta.radius > data.y
-          && lopta.y - lopta.radius < data.y + data.h 
+        if (
+          lopta.x - lopta.radius > data.x &&
+          lopta.x + lopta.radius < data.x + data.w &&
+          lopta.y + lopta.radius > data.y &&
+          lopta.y - lopta.radius < data.y + data.h
         ) {
-          lopta.dy = -lopta.dy
-          data.vidljiv = false
+          lopta.dy = -lopta.dy;
+          data.vidljiv = false;
           povecajRezultat();
         }
       }
-    })
-  })
+    });
+  });
 }
 
 // povecaj rezultat
 function povecajRezultat() {
-  rezultat = rezultat + 1
+  rezultat = rezultat + 1;
 
   // ako je rezultat 45 svi su obrisani, nova igra
-  if ( rezultat === 45) {
+  if (rezultat === 45) {
     blokoviVidljivi();
     lopta.x = c.width / 2;
     lopta.y = c.height / 2;
@@ -191,73 +191,64 @@ function povecajRezultat() {
 
 // Nacrtaj rezultat na Canvas
 function nacrtajRezultat() {
-  ctx.font = '16px Arial'
-  ctx.fillStyle = 'black';
-  ctx.fillText(`Rezultat : ${rezultat}`, c.width - 100, 25)
+  ctx.font = '16px Arial';
+  ctx.fillStyle = 'red';
+  ctx.fillText(`Rezultat : ${rezultat}`, c.width - 100, 25);
 }
-
-
 
 // nakon puštanja tipke
 function keyup(e) {
-  if ( e.key === 'ArrowRight' || e.key === 'ArrowLeft' ) {
-    odbojnik.dx =0;
+  if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+    odbojnik.dx = 0;
   }
 }
 
-
 // Glavna funkcija za crtanje na ekranu
 function animacija() {
-  if (zaustaviProgram === 0)  {
+  if (zaustaviProgram === 0) {
     // ciscenje ekrana
     ctx.clearRect(0, 0, c.width, c.height);
-  
+
     // nacrtaj odbojnik
     nacrtajOdbojnik();
-  
+
     // nacrtaj odbojnik
     nacrtajBlokove();
-  
-    
+
     nacrtajLoptu();
     kretanjeLopte();
-  
+
     // Nacrtaj rezultat
-    nacrtajRezultat()
+    nacrtajRezultat();
     requestAnimationFrame(animacija);
-    
   }
 }
 
 // Pokratanje programa
 function pokreniProgram() {
+  stop.textContent = 'Zaustavi';
   zaustaviProgram = 0;
   rezultat = 0;
+  // lopta.brzinaKretanja = 5
+  lopta.dy = -4
+  lopta.dx = 4
   lopta.x = c.width / 2;
   lopta.y = c.height / 2;
   blokoviVidljivi();
   animacija();
 }
-// animacija();
 
+
+// Zaustavljanje/ pokretanje programa
 function zaustavi() {
-  console.log('11');
-  console.log(zaustaviProgram);
-  
-  
   if (zaustaviProgram === 0) {
-    zaustaviProgram = 1
-    stop.textContent = 'Nastavi'
+    zaustaviProgram = 1;
+    stop.textContent = 'Nastavi';
   } else {
-    zaustaviProgram = 0
-    stop.textContent = 'Zaustavi'
+    zaustaviProgram = 0;
+    stop.textContent = 'Zaustavi';
     animacija();
   }
-
-  // zaustaviProgram = 1
-  // window.stop()
-  // start.removeEventListener('click', animacija)
-  
 }
 
 // očitavanje događaja dali je tipka spuštena ili nije
@@ -277,5 +268,5 @@ zatvoriPravila.addEventListener('click', () => {
 // Pokrecemo novu igru
 start.addEventListener('click', pokreniProgram);
 
-stop.addEventListener('click', zaustavi)
-
+// Pauziraj / pokreni igru
+stop.addEventListener('click', zaustavi);
