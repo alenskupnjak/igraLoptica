@@ -4,6 +4,16 @@
   padding: 0;
 }
 
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background-color: #fff;
+  margin: auto;
+}
+
 .pravila {
   background-color: aquamarine;
   display: flex;
@@ -11,9 +21,9 @@
   justify-content: center;
   align-items: center;
   text-align: center;
-  width: 300px;
+  width: 400px;
   padding: 10px;
-  transform: translateX(-300px);
+  transform: translateX(-1300px);
   transition: transform 1s ease-in-out;
   
 }
@@ -29,5 +39,14 @@
   border: 0;
   border-radius: 5px;
   margin: 10px;
+  width: 150px;
+}
+
+canvas {
+  width: 800px;
+  height: 600px;
+  background:  #0095dd;
+  margin: auto;
+  border-radius: 5px;
 }
 
