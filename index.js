@@ -7,6 +7,7 @@ const ctx = c.getContext('2d');
 let rezultat = 0;
 let brojRedova = 9;
 let brojStupaca = 5;
+let sirinaOdbojnika = 800
 
 // Definiramo karakteristike lopte
 const lopta = {
@@ -21,10 +22,10 @@ const lopta = {
 
 // definiramo odbojnik
 const odbojnik = {
-  x: c.width / 2 - 60,
+  x: c.width / 2 - sirinaOdbojnika/2,
   y: c.height - 20,
   height: 10,
-  width: 120,
+  width: sirinaOdbojnika,
   brzina: 18,
   dx: 0,
 };
@@ -82,12 +83,10 @@ function nacrtajOdbojnik() {
 // Kretanje odbojnika
 function kretanjeOdbojnika(e) {
   if (e.key === 'ArrowRight') {
-    console.log('desno');
     odbojnik.x += odbojnik.brzina;
   }
 
   if (e.key === 'ArrowLeft') {
-    console.log('Lijevo');
     odbojnik.x -= odbojnik.brzina;
   }
 
@@ -169,8 +168,6 @@ function kretanjeLopte() {
         ) {
           lopta.dy = -lopta.dy
           data.vidljiv = false
-          console.log(index);
-          
           povecajRezultat();
         }
       }
@@ -181,7 +178,10 @@ function kretanjeLopte() {
 // povecaj rezultat
 function povecajRezultat() {
   rezultat = rezultat + 1
-  nacrtajRezultat();
+  if ( rezultat === 45) {
+    blokoviVidljivi();
+  }
+  // nacrtajRezultat();
 }
 
 
