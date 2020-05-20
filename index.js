@@ -9,7 +9,7 @@ const ctx = c.getContext('2d');
 let rezultat = 0;
 let brojRedova = 9;
 let brojStupaca = 5;
-let sirinaOdbojnika = 800;
+let sirinaOdbojnika = 140;
 let zaustaviProgram = 0;
 
 // Definiramo karakteristike lopte
@@ -29,7 +29,7 @@ const odbojnik = {
   y: c.height - 20,
   height: 10,
   width: sirinaOdbojnika,
-  brzina: 8,
+  brzina: 20,
   dx: 0,
 };
 
