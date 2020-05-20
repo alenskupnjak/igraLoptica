@@ -2,12 +2,16 @@ const pokaziBtn = document.getElementById('pravilaBtn');
 const zatvoriPravila = document.getElementById('zatvori');
 const pokazi = document.getElementById('pravila');
 const c = document.getElementById('can');
+const start = document.getElementById('start');
+const stop = document.getElementById('stop');
 const ctx = c.getContext('2d');
 
 let rezultat = 0;
 let brojRedova = 9;
 let brojStupaca = 5;
 let sirinaOdbojnika = 800
+let zaustaviProgram = 0;
+
 
 // Definiramo karakteristike lopte
 const lopta = {
@@ -102,7 +106,6 @@ function kretanjeOdbojnika(e) {
 
 // Ucini vidljivima sve blokove
 function blokoviVidljivi() {
-  rezultat = 0;
   poljeBlokova.forEach(column =>{
     column.forEach(data => {
       data.vidljiv = true
@@ -148,12 +151,10 @@ function kretanjeLopte() {
   // donji zid
   if (lopta.y + lopta.radius > c.height) {
     lopta.dy = -lopta.dy;
-    // setTimeout(() => {
-    //   console.log('dno');
-    // }, 1000);
 
     // Nova igra
-    // blokoviVidljivi();
+    rezultat = 0;
+    blokoviVidljivi();
   }
 
   // provjera za svaki blok dali je lopta dodirnila
@@ -178,16 +179,20 @@ function kretanjeLopte() {
 // povecaj rezultat
 function povecajRezultat() {
   rezultat = rezultat + 1
+
+  // ako je rezultat 45 svi su obrisani, nova igra
   if ( rezultat === 45) {
     blokoviVidljivi();
+    lopta.x = c.width / 2;
+    lopta.y = c.height / 2;
   }
-  // nacrtajRezultat();
 }
 
 
 // Nacrtaj rezultat na Canvas
 function nacrtajRezultat() {
   ctx.font = '16px Arial'
+  ctx.fillStyle = 'black';
   ctx.fillText(`Rezultat : ${rezultat}`, c.width - 100, 25)
 }
 
@@ -203,30 +208,59 @@ function keyup(e) {
 
 // Glavna funkcija za crtanje na ekranu
 function animacija() {
-  // ciscenje ekrana
-  ctx.clearRect(0, 0, c.width, c.height);
-
-  // nacrtaj odbojnik
-  nacrtajOdbojnik();
-
-  // nacrtaj odbojnik
-  nacrtajBlokove();
-
+  if (zaustaviProgram === 0)  {
+    // ciscenje ekrana
+    ctx.clearRect(0, 0, c.width, c.height);
   
-  nacrtajLoptu();
-  kretanjeLopte();
-
-  // Nacrtaj rezultat
-  nacrtajRezultat()
-  requestAnimationFrame(animacija);
+    // nacrtaj odbojnik
+    nacrtajOdbojnik();
+  
+    // nacrtaj odbojnik
+    nacrtajBlokove();
+  
+    
+    nacrtajLoptu();
+    kretanjeLopte();
+  
+    // Nacrtaj rezultat
+    nacrtajRezultat()
+    requestAnimationFrame(animacija);
+    
+  }
 }
 
 // Pokratanje programa
-animacija();
+function pokreniProgram() {
+  zaustaviProgram = 0;
+  rezultat = 0;
+  lopta.x = c.width / 2;
+  lopta.y = c.height / 2;
+  blokoviVidljivi();
+  animacija();
+}
+// animacija();
 
+function zaustavi() {
+  console.log('11');
+  console.log(zaustaviProgram);
+  
+  
+  if (zaustaviProgram === 0) {
+    zaustaviProgram = 1
+    stop.textContent = 'Nastavi'
+  } else {
+    zaustaviProgram = 0
+    stop.textContent = 'Zaustavi'
+    animacija();
+  }
 
+  // zaustaviProgram = 1
+  // window.stop()
+  // start.removeEventListener('click', animacija)
+  
+}
 
-
+// očitavanje događaja dali je tipka spuštena ili nije
 document.addEventListener('keydown', kretanjeOdbojnika);
 document.addEventListener('keyup', keyup);
 
@@ -240,12 +274,8 @@ zatvoriPravila.addEventListener('click', () => {
   pokazi.classList.remove('pokazi');
 });
 
+// Pokrecemo novu igru
+start.addEventListener('click', pokreniProgram);
 
+stop.addEventListener('click', zaustavi)
 
-
-
-// console.log(ctx);
-// console.log(c.width);
-// console.log(c.height);
-// console.log(ctx.canvas.offsetHeight);
-// console.log(ctx.canvas.offsetWidth);
