@@ -123,8 +123,7 @@ function nacrtajLoptu() {
 function kretanjeLopte() {
   console.log(lopta.dx);
   console.log(lopta.dy);
-  
-  
+
   lopta.x += lopta.dx;
   lopta.y += lopta.dy;
 
@@ -156,7 +155,6 @@ function kretanjeLopte() {
     blokoviVidljivi();
   }
 
-
   // provjera za svaki blok dali je lopta dodirnila
   poljeBlokova.forEach((kolona) => {
     kolona.forEach((data, index) => {
@@ -187,7 +185,6 @@ function povecajRezultat() {
     lopta.y = c.height / 2;
   }
 }
-
 
 // Nacrtaj rezultat na Canvas
 function nacrtajRezultat() {
@@ -230,14 +227,13 @@ function pokreniProgram() {
   zaustaviProgram = 0;
   rezultat = 0;
   // lopta.brzinaKretanja = 5
-  lopta.dy = -4
-  lopta.dx = 4
+  lopta.dy = -4;
+  lopta.dx = 4;
   lopta.x = c.width / 2;
   lopta.y = c.height / 2;
   blokoviVidljivi();
   animacija();
 }
-
 
 // Zaustavljanje/ pokretanje programa
 function zaustavi() {
